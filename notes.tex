@@ -1,0 +1,689 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+% Define a new theorem style for definitions
+\newtheoremstyle{definitionstyle}
+  {}           % Space above
+  {}           % Space below
+  {}           % Body font
+  {}           % Indent amount
+  {\bfseries}  % Theorem head font
+  {.}          % Punctuation after theorem head
+  {.5em}       % Space after theorem head
+  {}           % Theorem head spec (can be left empty, meaning `normal')
+
+% Use the new theorem style for definitions
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\title{MATH 2114}
+\author{Salvador Buenadicha}
+\date{\today}
+
+\DeclareMathOperator{\proj}{proj}
+\newcommand{\vct}{\mathbf}
+\newcommand{\vctproj}[2][]{\proj_{\vct{#1}}\vct{#2}}
+
+\begin{document}
+
+\maketitle
+
+\section{Test 1}
+
+\subsection{Linear Systems}
+
+\begin{definition}
+    A linear system is said to be \underline{consistent} when there exists at least one solution,
+    and \underline{inconsistent} when there exists no solution.
+\end{definition}
+
+\begin{definition}
+    We call a linear system \underline{underdetermined} when the number of variables (unknowns) is
+    larger than the number of equations (constraints), and \underline{overdetermined} when the number
+    of equations is greater than the number of variables.
+\end{definition}
+
+\subsection{Matrices, Vectors, and Linear Independence}
+
+\begin{definition}
+    The following operations \textbf{do not change} the solution set of a linear system. They are
+    called \underline{elementary row operations}.
+    \begin{enumerate}
+        \item Interchange any two equations.
+        \item Multiply equation by nonzero scalar.
+        \item Adding a scalar multiple of an equation to another equation.
+        \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    We call two matrices \underline{row equivalent} if there is a sequence of elementary row 
+    operations that converts one matrix into the other.
+\end{definition}
+
+\begin{definition}
+    A matrix is said to be in \underline{row echelon form} if 
+    \begin{enumerate}
+        \item Any rows consisting entirely of zeroes are at the bottom
+        \item In each nonzero row, the first entry (called the leading entry) is in a column to 
+        the left of any leading entries below it
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    The \underline{general solution} of a linear system is a formula for each variable that generates
+    \textit{all solutions} of the linear system.
+\end{definition}
+
+\begin{definition}
+    A matrix is said to be in \underline{reduced row echelon form} if 
+    \begin{enumerate}
+        \item It is in row echelon form
+        \item The first nonzero entry in each row is 1
+        \item The first nonzero entry in each row is the only nonzero entry in its column
+    \end{enumerate}
+\end{definition}
+
+\newpage
+
+\begin{definition}
+    A $n \times 1$ matrix is called a \underline{column vector} which we denote 
+    \begin{equation*}
+        \mathbf{v}=\begin{bmatrix}
+            v_1 \\
+            v_2 \\
+            \vdots \\
+            v_n
+            \end{bmatrix}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    The $m \times n$ linear system
+    \begin{equation*}
+        x_1 \mathbf{v_1} + x_2 \mathbf{v_2} + \cdots + x_n \mathbf{v _n} = \mathbf{b}
+    \end{equation*}
+    is called \underline{homogeneous} if $\mathbf{b}=\mathbf{0}$ and \underline{nonhomogeneous} if
+    $\mathbf{b} \ne \mathbf{0}$. Note that every homogeneous linear system is \underline{consistent}.
+\end{definition}
+
+\begin{definition}
+    The vectors $\mathbf{v}_1,\mathbf{v}_2,\cdot,\mathbf{v}_n$ are called \underline{linearly independent} if 
+    the linear system
+    \begin{equation*}
+        x_1\mathbf{v}_1+x_2\mathbf{v}_2+\cdot+x_n\mathbf{v}_n=\mathbf{0}
+    \end{equation*}
+    has the unique solution $\mathbf{x}=\mathbf{0}$ and \underline{linearly dependent} if it has a nonzero solution.
+    Note that the linear system has a unique solution if and only if the vectors are linearly independent.
+\end{definition}
+
+\begin{definition}
+    For any scalars $x_1,x_2,\dots,x_n$ we call
+    \begin{equation*}
+        x_1\mathbf{v}_1+x_2\mathbf{v}_2+\cdots+x_n\mathbf{v}_n
+    \end{equation*}
+    a \underline{linear combination} of the vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n$.
+\end{definition}
+
+\begin{proposition}
+    If $A$ is a $m \times n$ matrix and $k$ is scalar then
+    \begin{equation*}
+        {(A^T)}^T=A
+    \end{equation*}
+    \begin{equation*}
+        {(A+B)}^T=A^T+B^T
+    \end{equation*}
+    \begin{equation*}
+        {(kA)}^T=k(A^T)
+    \end{equation*}
+\end{proposition}
+
+\begin{definition}
+    A $n \times n$ matrix is called \underline{symmetric} if $A^T=A$.
+\end{definition}
+
+\begin{proposition}
+    If $A$ is a $m \times n$ matrix such that $n>m$ (system is \textbf{underconstrained}), then
+    any consistent linear system $A\mathbf{x}=\mathbb{b}$ has an infinite number of solutions.
+\end{proposition}
+
+\begin{proposition}
+    Let $A$ be a $m \times n$ matrix. If $m>n$ (system is \textbf{overconstrained}), then
+    there exists a $\mathbf{b}\in\mathbb{R}^m$ such that the linear system $A\mathbf{x}=\mathbf{b}$
+    is inconsistent.
+\end{proposition}
+
+\subsection{Span and Invertibility}
+
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix. If there exists a $n \times n$ matrix $B$ such that
+    $AB=I_n$ and $BA=I_n$ we call the matrix A \underline{invertible} and the matrix $B$ an \underline{inverse}
+    of $A$.
+\end{definition}
+
+\begin{theorem}
+    Let $A$ be a $n \times n$ matrix that is invertible. Then for any $\mathbf{b} \in \mathbb{R}^n$,
+    the vector $A^{-1}\mathbf{b}$ is the unique solution to the linear system $A\mathbf{x}=\mathbf{b}$.
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Fundamental Theorem of Invertible Matrices}
+
+    The following statements are equivalent:
+    \begin{enumerate}
+        \item The matrix $A$ is invertible.
+        \item rank($A$)=$n$.
+        \item The linear system A$\mathbf{x}=\mathbf{b}$ has a unique solution for every $\mathbf{b} \in \mathbb{R}^n$
+        \item The homogeneous linear system $A\mathbf{x}=\mathbf{0}$ has only the trivial solution $\mathbf{x}=0$
+        \item The reduced row echelon form of $A$ is $I_n$
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    We call the set of all linear combinations of the vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n \in \mathbb{R}^m$
+    the \underline{span} of the vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n$ which we denote
+    span$(\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n)$.
+\end{definition}
+
+\section{Test 2}
+
+\subsection{Subspaces, Basis, and Dimension}
+
+\begin{definition}
+    A set of vectors $W$ in $\mathbb{R}^n$ is called a \underline{subspace} of $\mathbb{R}^n$ If
+    \begin{enumerate}
+        \item $\mathbf{0}\in\mathbb{R}^n$
+        \item For any vectors $\mathbf{x},\mathbf{y}\in W$, the vectors $\mathbf{x}+\mathbf{y} \in W$
+        \item For any vector $\mathbf{x}\in W$ and scalar $c \in \mathbb{R}$, the vector $c\mathbf{x}$ is also in $W$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    We define the \underline{null space} of the $m \times n$ matrix $A$ to be
+    \begin{equation*}
+        \mathrm{null}(A)=\{\mathbf{x} \in \mathbb{R}^n \ |\ A\mathbf{x}=\mathbf{0}\}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    Let $W$ be a subspace of $\mathbb{R}^n$. The set of $k$ vectors \newline 
+    $\beta=\{\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k\}$ in $W$ is called a \underline{basis} for $W$ if 
+    \begin{enumerate}
+        \item $W=\mathrm{span}(\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k)$
+        \item The vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k$ are linearly independent
+    \end{enumerate}
+    \textit{Note:} The empty set, denoted $\emptyset$, is a \underline{basis} for the subspace $W=\{\mathbf{0}\}$.
+\end{definition}
+
+\begin{definition}
+    Let $W$ be a subspace of $\mathbb{R}^n$. The number of vectors in any basis for $W$ is called the
+    \underline{dimension} of $W$, denoted dim$(W)$.
+\end{definition}
+
+\begin{definition}
+    Suppose $m \times n$ matrix $A$ has column vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n\ \in \mathbb{R}^m$.
+    We define the \underline{column space} of $A$ to be
+    \begin{equation*}
+        \mathrm{col}(A)=\mathrm{span}(\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n)
+    \end{equation*}
+    \textbf{Note:} The column space is the set of \underline{all linear combinations} of the column vectors of $A$.
+\end{definition}
+
+\begin{proposition}
+    Let $A$ be a $m \times n$ matrix with column vectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n$ in $\mathbb{R}^n$.
+    \newline\newline
+    col$(A)=$span$(\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n)$ is a \underline{subspace} of $\mathbb{R}^n$
+    \newline\newline
+    null$(A)=\{\mathbf{x} \in \mathbb{R}^n \ |\ A\mathbf{x}=\mathbf{0}\}$ is a \underline{subspace} of $\mathbb{R}^n$
+\end{proposition}
+
+\begin{definition}
+    Let $A$ be a $m \times n$ matrix. We define the \underline{rank} and \underline{nullity} of $A$ as
+    \begin{equation*}
+        \mathrm{rank}(A)=\dim(\mathrm{col}(A))
+    \end{equation*}
+    \begin{equation*}
+        \mathrm{nullity}(A)=\dim(\mathrm{null}(A))
+    \end{equation*}
+\end{definition}
+
+\begin{proposition}
+    Let $W$ be a subspace of $\mathbb{R}^m$. Then $W=\mathbb{R}^m$
+    if and only if $\dim(W)=m$
+\end{proposition}
+
+\begin{theorem}
+    \textit{Rank-Nullity Theorem:} if $A$ is a $m \times n$ matrix, then
+    \begin{equation*}
+        \operatorname*{rank}(A)+\operatorname*{nullity}(A)=n
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a $m \times n$ matrix. Then
+    \begin{equation*}
+        \operatorname*{rank}(A)=\operatorname*{rank}(A^T)
+    \end{equation*}
+\end{theorem}
+
+\subsection{Linear Transformations}
+
+\begin{definition}
+    A \underline{transformation} (or function mapping) $T$ from $\mathbb{R}^n$
+    to $\mathbb{R}^m$ is a rule that assigns each vector $x \in \mathbb{R}^n$ a vector
+    $T(x) \in \mathbb{R}^m$.
+\end{definition}
+
+\begin{definition}
+    A transformation $T:\mathbb{R}^n \to \mathbb{R}^m$ is said to be \underline{one-to-one} 
+    (sometimes denoted 1--1) if for all vectors $\mathbf{u}, \mathbf{v} \in \mathbb{R}^n$, $T(\mathbf{u})=T(\mathbf{v}) \implies \mathbf{u}=\mathbf{v}$.
+\end{definition}
+
+\begin{definition}
+    A transformation is said to be \underline{onto} if for all vectors $\mathbf{w} \in \mathbb{R}^m$
+    there is a vectors $\mathbf{v} \in \mathbb{R}^n$ such that $T(\mathbf{v})=\mathbf{w}$.
+\end{definition}
+
+\begin{definition}
+    A transformation $T$ is \underline{linear} if for all vectors $\mathbf{u}, \mathbf{v}$ in the domain
+    of $T$ and for all constants $c$ we have:
+    \begin{equation*}
+        T(\mathbf{u} + \mathbf{v})=T(\mathbf{u})+T(\mathbf{v}) \qquad \mathrm{(linear \: w.r.t \: vector \: addition)}
+    \end{equation*}
+    \begin{equation*}
+        T(c\mathbf{u})=cT(\mathbf{u}) \qquad \mathrm{(linear \: w.r.t \: vector \: scalar \: multiplication)}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    Let $T: \mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. Then there exists
+    a unique matrix $A$, which we denote as $[T]$, such that $T(\mathbf{x})=A\mathbf{x}$ for all
+    $\mathbf{x} \in \mathbb{R}^n$. $A$ is given by the following $m \times n$ matrix:
+    \begin{equation*}
+        A=[T(\mathbf{e}_1) \ |\ T(\mathbf{e}_2) \ |\ \dots \ |\ T(\mathbf{e}_n)]
+    \end{equation*}
+    $A$ is called the \underline{standard matrix} for the linear transformation $T$.
+\end{theorem}
+
+\begin{theorem}
+    Let $S:\mathbb{R}^n \to \mathbb{R}^p$ and $T:\mathbb{R}^m \to \mathbb{R}^n$ be linear transformations.
+    Then $S \circ T: \mathbb{R}^m \to \mathbb{R}^p$ is a linear transformation and
+    \begin{equation*}
+        [S][T]=[S \circ T]
+    \end{equation*}
+\end{theorem}
+
+\begin{definition}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. Then the set of all $\mathbf{v} \in \mathbb{R}^n$
+    for which $T(\mathbf{v})=\mathbf{0}$ is the \underline{kernel} of $T$ and is denoted by $\ker(T)$.
+\end{definition}
+
+\begin{theorem}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. Then $\ker(T)$ is a
+    subspace of $\mathbb{R}^n$.
+\end{theorem}
+
+\begin{definition}
+    The dimension of the kernel of $T$ is called the \underline{nullity} of $T$ and is denoted
+    by $\operatorname*{nullity}(T)$.
+\end{definition}
+
+\begin{theorem}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation defined by $T(\mathbf{x})=A\mathbf{x}$. Then
+    $\ker(T)$ is equal to the null space of $A$.
+\end{theorem}
+
+\begin{theorem}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. Then:
+    \begin{equation*}
+        \operatorname*{rank}(T)+\operatorname*{nullity}(T)=n
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. Then $T$ is onto if and only if rank$(T)=m$.
+\end{theorem}
+
+\begin{theorem}
+    Let $T:\mathbb{R}^n \to \mathbb{R}^m$ be a linear transformation. The $T$ is one-to-one if and only if $T$ is onto.
+\end{theorem}
+
+\begin{definition}
+    Let $T_1$ and $T_2$ be linear transformations from $\mathbb{R}^n$ to $\mathbb{R}^n$ such that for every $\mathbf{v} \in \mathbb{R}^n$
+    we have:
+    \begin{equation*}
+        (T_2 \circ T_1)(\mathbf{v}) = T_2(T_1(\mathbf{v}))=\mathbf{v} \qquad \mathrm{and} \qquad (T_1 \circ T_2)(\mathbf{v}) = T_1(T_2(\mathbf{v}))=\mathbf{v}
+    \end{equation*}
+    Then $T_2$ is the \underline{inverse} of $T_1$, and $T_1$ is said to be \underline{invertible}.
+\end{definition}
+
+\subsection{Markov Chains}
+
+\begin{definition}
+    A square matrix $P$ is a \underline{stochastic matrix} if each entry is a number between 0 and 1, and the sum of the
+    entries in each column of $P$ is 1.
+\end{definition}
+
+\begin{definition}
+    A \underline{Markov chain} is a sequence \{$X_n$\} of state matrices (vectors) that are related by the equation
+    $X_{k+1} = PX_k$, where $P$ is a stochastic matrix.
+\end{definition}
+
+\begin{definition}
+    A stochastic matrix $P$ is \underline{regular} if some power of $P$ contains only positive (nonzero) entries.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Algorithm to find $X_s$:}
+    \begin{enumerate}
+        \item Check to see if the matrix of transition probabilites is regular.
+        \item Solve the system of linear equations obtained from
+        \begin{equation*}
+            (P-I)X_s=\mathbf{0}
+        \end{equation*}
+        \item Check that your solution satisfies $PX_s=X_s$.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Eigenvalues, Eigenvectors, and Complex Numbers}
+
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix. We call a nonzero vector \textbf{x} an \underline{eigenvector} of $A$ with
+    corresponding \underline{eigenvalue} $\lambda$ (a scalar) if
+    \begin{equation*}
+        A\mathbf{x} = \lambda \mathbf{x}, \qquad \mathbf{x} \ne \mathbf{0}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix and let $\lambda$ be an eigenvector of $A$. The set $E_\lambda$ defined
+    \begin{equation*}
+        E_\lambda = \operatorname*{null}(A-\lambda I)
+    \end{equation*}
+    is called the \underline{eigenspace} of $A$ corresponding to the eigenvalue $\lambda$.
+    \newline
+    \textit{Note 1:} Since $E_\lambda$ is in the null space of $A - \lambda I$, the eigenspace $E_\lambda$ is a subspace of $\mathbb{R}^n$.
+    \newline
+    \textit{Note 2:} $E_\lambda$ contains the zero vector and all eigenvectors of $A$ with eigenvalue $\lambda$.
+\end{definition}
+
+\begin{definition}
+    The \underline{complex conjugate} of $z=a+bi$ is defined to be $\bar{z}=a-bi$.
+\end{definition}
+
+\begin{definition}
+    The \underline{magnitude} of a complex number $z=a+bi$ is defined to be $|z| = \sqrt{a^2 + b^2}$
+\end{definition}
+
+\subsection{Determinants}
+
+\begin{theorem}
+    \textit{Laplace Expansion Theorem:} Let $A \in \mathbb{R}^{n \times n}$. Then for any $i$ in $1,\dots,n$ and $j$ in $1,\dots,n$ we have:
+    \begin{equation*}
+        \det(A)=\sum_{j=i}^{n}{(-1)}^{i+j}a_{ij}\det(\tilde{A}_{ij})=\sum_{i=1}^{n}{(-1)}^{i+j}a_{ij}\det(\tilde{A}_{ij})
+    \end{equation*}
+    where $\tilde{A}_{ij}$ is the $(n - 1) \times (n-1)$ matrix obtained by deleting row $i$ and column $j$ from $A$.
+\end{theorem}
+
+\begin{theorem}
+    If $A \in \mathbb{R}^{n \times n}$ is an upper triangular, lower triangular, or diagonal matrix, then:
+    \begin{equation*}
+        \det(A)=a_{1 1}a_{2 2}\cdots a_{nn}
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    Let $A \in \mathbb{R}^{n \times n}$.
+    \begin{enumerate}
+        \item If $B$ is a matrix obtained by interchanging any two rows or interchanging any two columns of A, then $\det(B)=-\det(A)$.
+        \item If $A$ has two identical rows or columns then $\det(A)=\mathbf{0}$
+        \item If $B$ is a matrix obtained by multiplying a row or column of $A$ by a scalar $k$, then
+        $\det(B)=k\det(A)$.
+        \item If $B$ is a matrix obtained from $A$ by adding a multiple of row $i$ to row $j$ or a multiple of 
+        column $i$ to column $j$ for $i \ne j$, then $\det(B)=\det(A)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    If $A$ and $B$ are $n \times n$ matrices, then
+    \begin{equation*}
+        \det(AB)=\det(A)\det(B)
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    If $A$ is a $n \times n$ matrix, then
+    \begin{equation*}
+        \det(A^T)=\det(A)
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    A $n \times n$ matrix $A$ is invertible if and only if $\det(A) \ne 0$.
+\end{theorem}
+
+\begin{proposition}
+    If $A$ is a $n \times n$ matrix that is upper triangular, lower triangular, or diagonal,
+    \begin{equation*}
+        \det(A-\lambda I) = (a_{11} - \lambda)(a_{22} - \lambda)\cdots(a_{nn}-\lambda)
+    \end{equation*}
+\end{proposition}
+
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix and suppose that $g(\lambda)=\det(A-\lambda I)$ has $k$ distinct
+    roots $\lambda_1,\lambda_2,\dots,\lambda_k$. Then by previous theorem
+    \begin{equation*}
+        g(\lambda)=\det(A-\lambda I)={(-1)}^n{(\lambda-\lambda_1)}^{n_1}{(\lambda-\lambda_2)}^{n_2}\cdots{(\lambda-\lambda_k)}^{n_k}
+    \end{equation*}
+    where $n_1+n_2+\cdots+n_k=n$. We call $n_i$ the \underline{algebraic multiplicity} of the eigenvalue $\lambda_i$.
+\end{definition}
+
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix and $\lambda$ be an eigenvalue of $A$. The \underline{geometric multiplicity} of $\lambda$ 
+    is $\dim(E_\lambda)=\operatorname*{nullity}(A-\lambda I)$.
+\end{definition}
+
+\begin{proposition}
+    Let $A$ be a $n \times n$ matrix and $\lambda$ be an eigenvalue of $A$. By the rank-nullity theorem we have
+    \begin{equation*}
+        \dim(E_\lambda)=nullity(A-\lambda I)=n-\operatorname*{rank}(A-\lambda I)
+    \end{equation*}
+\end{proposition}
+
+\begin{theorem}
+    Let $A$ be a $n \times n$ matrix with eigenvalue $\lambda$ and corresponding eigenvector $\mathbf{x}$.
+    \begin{enumerate}
+        \item For any integer $k \ge 1, \lambda^k$ is an eigenvalue of $A^k$ with corresponding eigenvector $\mathbf{x}$.
+        \item If $A$ is invertible, then $\frac{1}{\lambda}$ is an eigenvalue of $A^{-1}$ with corresponding eigenvector $\mathbf{x}$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    Suppose $n \times n$ matrix $A$ has eigenvectors $\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_m$ 
+    with eigenvalues $\lambda_1,\lambda_2,\dots,\lambda_m$. If $\mathbf{x} \in \mathbb{R}^n$ that can be written as
+    \begin{equation}
+        \mathbf{x}=c_1\mathbf{v}_1+c_1\mathbf{v_2}+\cdots+c_m\mathbf{v}_m
+    \end{equation}
+    then for any integer $k \ge 1$ we have
+    \begin{equation}
+        A^k\mathbf{x}=c_1\lambda_1^k\mathbf{v}_1+c_2\lambda_2^m\mathbf{v}_2+\cdots+c_m\lambda_1^k\mathbf{v}_m
+    \end{equation}
+\end{theorem}
+
+\begin{proposition}
+    Let $A$ be a $n \times n$ matrix. To use equation (2) to calculate $A^k\mathbf{x}$ for any $\mathbf{x}$ we
+    need a basis $\beta = \{\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_n\}$ for $\mathbb{R}^n$ consisting of eigenvectors of $A$.
+\end{proposition}
+
+\subsection{Diagonalization and Similarity}
+\begin{definition}
+    Let $A$ be a $n \times n$ matrix. If there exists an invertible matrix $P$ and a diagonal matrix $D$ such that
+    $A=PDP^-1$, we say that $A$ is \underline{diagonalizable}.
+    We call $A=PDP^{-1}$ where $P$ is invertible and $D$ is diagonalizable a \underline{diagonalization} of $A$.
+\end{definition}
+
+\begin{theorem}
+    Suppose $A$ is diagonalizable and hence $A=PDP^-1$ for some invertible matrix $P$ and diagonal matrix $D$.
+    Then the column vectors of $P$ form a basis for $\mathbb{R}^n$ consisting of \textit{eigenvectors} of $A$ and the diagonal entries of
+    $D$ are the corresponding \textit{eigenvalues}.
+\end{theorem}
+
+\begin{theorem}
+    Suppose a $n \times n$ matrix $A$ has $k$ distinct eigenvalues $\lambda_1,\lambda_2,\dots,\lambda_k$.
+    Then $A$ is diagonalizable if and only if
+    \begin{equation*}
+        \dim(E_{\lambda_1})+\dim(E_{\lambda_2})+\cdots+\dim(E_{\lambda_k})=n
+    \end{equation*}
+\end{theorem}
+
+\begin{definition}
+    Let $A$ and $B$ be $n \times n$ matrices. $A$ is said to be \underline{similar} to $B$, denoted by $A \sim B$, if
+    there exists an invertible matrix $P$ such that $B=P^{-1}AP$.
+\end{definition}
+
+\begin{definition}
+    Let $A,B,$ and $C$ be $n \times n$ matrices. Then
+    \begin{enumerate}
+        \item $A \sim A$
+        \item If $A \sim B$, then $B \sim A$
+        \item If $A \sim B$ and $B \sim C$, then $A \sim C$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $A$ and $B$ be matrices such that $A \sim B$. Then
+    \begin{enumerate}
+        \item $\det(A)=\det(B)$
+        \item $A$ is invertible if and only if $B$ is invertible
+        \item $\operatorname*{rank}(A)=\operatorname*{rank}(B)$
+        \item $A$ and $B$ have the same characteristic polynomial
+        \item $A$ and $B$ have the same eigenvalues
+        \item $A^m \sim B^m$ for all positive integers $m$
+        \item If $A$ is invertible, then $A^m \sim B^m$ for all integers $m$
+    \end{enumerate}
+\end{theorem}
+
+\section*{Test 3}
+
+\subsection{Projections and Orthogonality}
+
+\begin{definition}
+    Let $\mathbf{x}$ and $\mathbf{y}$ be vectors in $\mathbb{R}^n$ where $\mathbf{y} \ne \mathbf{0}$. The
+    \underline{orthogonal projection} of $\mathbf{x}$ onto $\mathbf{y}$, denoted $\vctproj[y]{x}$, is defined as
+    \begin{equation*}
+        \vctproj[y]{x}=\frac{\vct x \cdot \vct y}{\vct y \cdot \vct y}\vct y
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    Consider the set of $n$ vectors $S=\{\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n\}$.
+    \begin{enumerate}
+        \item The set $S$ is \underline{orthogonal} if $vct{v}_i \cdot \vct{v}_j = 0$ for any $i, j$ in $1,\dots,n$ such that $i \ne j$.
+        \item The set $S$ is \underline{orthonormal} if $S$ is orthogonal \textit{and} $\vct{v}_i \cdot \vct{v}_i = 1$ for any $i$ in $1,\dots,n$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $S=\{\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n\}$ be a set of $n$ vectors.
+    If $S$ is an orthogonal or orthonormal set, then the vectors $\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n$
+    are linearly independent.
+\end{theorem}
+
+\begin{definition}
+    Let $W$ be a subspace of $\mathbb{R}^n$ and let $S=\{\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n\}$ be a set of $n$ vectors
+    in $W$.
+    \begin{enumerate}
+        \item If $S$ is an \textit{orthogonal basis} for $W$, then for any vectors $\vct{v} \in W$ we have
+        \begin{equation*}
+            \vct{v} = \frac{\vct v \cdot \vct{v}_1}{\vct{v}_1 \cdot \vct{v}_1}\vct{v}_1+\frac{\vct v \cdot \vct{v}_2}{\vct{v}_2 \cdot \vct{v}_2}\vct{v}_2+\cdots+\frac{\vct v \cdot \vct{v}_n}{\vct{v}_n \cdot \vct{v}_n}\vct{v}_n
+        \end{equation*}
+        \item If $S$ is an \textit{orthonormal basis} for $W$, then for any vector $\vct{v} \in W$ we have
+        \begin{equation*}
+            \vct{v} = {(\vct v \cdot \vct{v}_1)}\vct{v}_1+{(\vct v \cdot \vct{v}_2)}\vct{v}_2+\cdots+{(\vct v \cdot \vct{v}_n)}\vct{v}_n
+        \end{equation*}
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Let $W$ be a subspace of $\mathbb{R}^n$. We say that a vector
+    $\vct v \in \mathbb{R}^n$ is \textit{orthogonal} to $W$ if we have $\vct v \cdot \vct w = 0$ for all
+    $\vct w$ from $W$. The set of all vectors that are orthogonal to $W$ is called the \underline{orthogonal complement}
+    of $W$, denoted by $W^\perp$.
+    \begin{equation*}
+        W^\perp=\{\vct v \in \mathbb{R}^n : \vct v \cdot \vct w = 0 \: \forall \: \vct w \in W\}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    Let $W$ be a subspace of $\mathbb{R}^n$. Then
+    \begin{enumerate}
+        \item $W^\perp$ is a subspace of $\mathbb{R}^n$
+        \item ${(W^\perp)}^\perp=W$
+        \item $W \cap W^\perp = \{\vct{0}\}$
+        \item If $W=\operatorname*{span}(\vct{w}_1,\vct{w}_2,\dots,\vct{w}_l)$, then $\vct v \in W^\perp$ if and only if 
+        $vct{v} \cdot \vct{w}_i = 0$ for all $i=1,\dots,k$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    If $W$ is a subspace of $\mathbb{R}^n$, then
+    \begin{equation*}
+        \dim(W)+\dim(W^\perp)=n
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a $m \times n$ matrix. Then
+    \begin{equation*}
+        {(\operatorname*{col}(A))}^\perp=\operatorname*{null}(A^\perp)
+    \end{equation*}
+\end{theorem}
+
+\begin{definition}
+    Let $W$ be a subspace of $\mathbb{R}^n$ and $\{\vct{u}_1, \dots,\vct{u}_k\}$ be an orthogonal basis for $W$. For any
+    vector $\vct v$ in $\mathbb{R}^n$ the orthogonal projection of $\vct v$ onto $W$ is defined as
+    \begin{equation*}
+        \operatorname*{{proj}_W} {(\vct v)} = \frac{\vct v \cdot \vct{u}_1}{\vct{u}_1 \cdot \vct{u}_1}\vct{u}_1+\cdots+\frac{\vct v \cdot \vct{u}_k}{\vct{u}_k \cdot \vct{u}_k}\vct{u}_k
+    \end{equation*}
+    The \textit{component} of \textbf{v} \textit{orthogonal} to $W$ is the vector $\operatorname*{{perp}_W}{(\vct v)}=\vct v - \operatorname*{{proj}_W} {(\vct v)}$
+\end{definition}
+
+\begin{theorem}
+    Let $W$ be a subpspace of $\mathbb{R}^n$ and $\vct v \in \mathbb{R}^n$. Then there are unique vectors $\vct w \in W$ and
+    $\vct{w}^\perp \in W^\perp$ such that $\vct v = \vct w + \vct{w}^\perp$.
+\end{theorem}
+
+\begin{theorem}
+    \textit{Gram-Schmidt Process:} Let $W$ be a $n$-dimensional subspace of $\mathbb{R}^m$ and let $S=\{\vct{w}_1,\vct{w}_2,\dots,\vct{w}_n\}$ be a basis for $W$.
+    Define the vectors $\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n$ in $W$ as
+    \begin{equation*}
+        \vct{v}_1=\vct{w}_1, \quad \vct{v}_2=\vct{w}_2-\frac{\vct{w}_2 \cdot \vct{v_1}}{\vct{v}_1 \cdot \vct{v_1}}\vct{v_1}, \quad \vct{v}_3=\vct{w}_3-\frac{\vct{w}_3 \cdot \vct{v}_1}{\vct{v}_1 \cdot \vct{v}_1}\vct{v}_1-\frac{\vct{w}_3 \cdot \vct{v}_2}{\vct{v}_2 \cdot \vct{v}_2}\vct{v}_2, \cdots
+    \end{equation*}
+    \begin{equation*}
+        \quad \vct{v}_n=\vct{w}_n-\frac{\vct{w}_n \cdot \vct{v}_1}{\vct{v}_1 \cdot \vct{v}_1}\vct{v}_1-\frac{\vct{w}_n \cdot \vct{v}_2}{\vct{v}_2 \cdot \vct{v}_2}\vct{v}_2 + \cdots + \frac{\vct{w}_n \cdot \vct{v}_{n-1}}{\vct{v}_{n-1} \cdot \vct{v}_{n-1}}\vct{v}_{n-1}
+    \end{equation*}
+    Then the set $\beta=\{\vct{v}_1,\vct{v}_2,\dots,\vct{v}_n\}$ is an \textit{orthogonal basis} for $W$.
+\end{theorem}
+
+\begin{definition}
+    Let $A$ be a $m \times n$ matrix and $\vct b \in \mathbb{R}^n$. Any solution of the linear system 
+    \begin{equation*}
+        A\vct x = \vctproj[\operatorname*{col}(\mathrm{A})]{b}
+    \end{equation*}
+    is called a \underline{least squares solution} of the linear system $A \vct x = \vct b$.
+\end{definition}
+
+\begin{theorem}
+    Let $A$ be a $m \times n$ matrix and $\vct b \in \mathbb{R}^m$. The vector $\vct x \in \mathbb{R}^n$ is a least
+    squares solution to $A \vct x = \vct b$ if and only if \textbf{x} is a solution of the \underline{normal equations}
+    \begin{equation*}
+        A^T A \vct x = A^T \vct b
+    \end{equation*}
+\end{theorem}
+
+\end{document}
